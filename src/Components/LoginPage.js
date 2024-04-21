@@ -3,20 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Check if username and password match
-    if (username === 'sai' && password === 'sai') {
+    // Check if email and password match
+    if (email === 'sai@example.com' && password === 'sai') {
       // Redirect to LMS page upon successful login
       alert('Log in Successful!');
       navigate('/');
     } else {
       // Handle invalid login
-      alert('Invalid username or password');
+      alert('Invalid email or password');
     }
   };
 
@@ -43,8 +43,8 @@ const LoginPage = () => {
         <div style={formStyle}>
           <h2>Login</h2>
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formUsername">
-              <Form.Control type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} style={{ margin: '20px 0 20px 0' }} />
+            <Form.Group controlId="formEmail">
+              <Form.Control type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} style={{ margin: '20px 0 20px 0' }} />
             </Form.Group>
             <Form.Group controlId="formPassword">
               <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} style={{ marginBottom: '20px' }} />
