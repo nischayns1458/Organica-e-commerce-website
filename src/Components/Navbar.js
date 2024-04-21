@@ -8,14 +8,17 @@ import ContactUs from './ContactUs';
 import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 
+// Import shopping cart icon from React Bootstrap
+import { BiCart } from 'react-icons/bi'; // Assuming you're using React Icons library
+
 function Navbar() {
   return (
     <>
     <Router>
 
-    <BootstrapNavbar expand="lg" className="bg-dark text-light" style={{ backgroundColor: 'Purpureus' , height: '80px'}}>
+    <BootstrapNavbar expand="lg" className="bg-dark text-light" style={{ backgroundColor: 'Purpureus' , height: '90px'}}>
       <Container>
-        <BootstrapNavbar.Brand href="/Home1" id='organica_id' className="text-light" style={{fontFamily:'"PT Sans Narrow", sans-serif',fontWeight:'bolder',fontSize:'30px'}}>ORGANICA</BootstrapNavbar.Brand>
+        <BootstrapNavbar.Brand href="/Home1" id='organica_id' className="text-light" style={{fontFamily:'"PT Sans Narrow", sans-serif',fontWeight:'bolder',fontSize:'30px',marginLeft:'-77px'}}>ORGANICA</BootstrapNavbar.Brand>
         <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
         <BootstrapNavbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
@@ -25,7 +28,7 @@ function Navbar() {
             <Nav.Link href="/ContactUs" className="text-light"><Link to="/ContactUs" style={linkStyle}>Contact Us</Link></Nav.Link>
           </Nav>
           <Nav className="mr-auto align-items-center">
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" style={{  height: '40px', width: '300px', marginRight: '8px'}} />
+            <FormControl type="text" placeholder="Search" className="mr-sm-2" style={{  height: '40px', width: '250px', marginRight: '8px'}} />
             <Button variant="outline-success" style={{ height: '40px', marginRight: '50px'}}>Search</Button> {/* Added inline style to add spacing */}
             <Button variant="secondary" style={{ height: '40px', marginRight: '20px', fontSize: '16px', padding: '8px 16px', display: 'flex', alignItems: 'center' }}> <Nav.Link href="/RegisterPage" className="text-light">
     <Link to="/RegisterPage" style={linkStyle}>Sign Up</Link>
@@ -36,6 +39,15 @@ function Navbar() {
     marginRight: '20px',
     transition: 'background-color 0.3s',
   }}><Link to="/LoginPage" style={linkStyle}>Login</Link></Button>
+
+  {/* Add cart button with built-in icon */}
+  <Button variant="info" style={{ height: '40px', marginRight: '-77px' }}>
+    <Link to="/shopping-cart" style={{ textDecoration: 'none', color: '#fff' }}>
+      <BiCart style={{ marginRight: '5px' }} /> {/* Adjust margin as needed */}
+      Cart
+    </Link>
+  </Button>
+
           </Nav>
           {/* <Button variant="primary"   style={{
     background: 'Jet',
