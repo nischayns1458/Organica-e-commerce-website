@@ -28,7 +28,7 @@ function Navbar() {
             <FormControl type="text" placeholder="Search" className="mr-sm-2" style={{  height: '40px', width: '300px', marginRight: '8px'}} />
             <Button variant="outline-success" style={{ height: '40px', marginRight: '50px'}}>Search</Button> {/* Added inline style to add spacing */}
             <Button variant="secondary" style={{ height: '40px', marginRight: '20px', fontSize: '16px', padding: '8px 16px', display: 'flex', alignItems: 'center' }}> <Nav.Link href="/RegisterPage" className="text-light">
-    <Link to="/RegisterPage" style={linkStyle}>Sign Up</Link>
+    <Link to="/RegisterPage" style={linkStyle}>Register</Link>
   </Nav.Link></Button>{' '}
           <Button variant="primary"  style={{
     background: 'Jet',
