@@ -1,37 +1,49 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
+import axios from 'axios';
 
 const RegisterPage = () => {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [name, setName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [email, setEmail] = useState('');
-  const [role, setRole] = useState('customer'); // Default role is customer
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    phoneNumber: '',
+    role: 'customer', // Default role is 'customer'
+  });
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validate passwords
-    if (password !== confirmPassword) {
-      alert("Passwords don't match");
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords don't match");
       return;
     }
-
-    // Perform registration logic here
-    // For simplicity, assume registration is successful
-    // Redirect to LMS page upon successful registration
-    alert('Sign Up Successful!');
-    navigate('/');
+    try {
+      const response = await axios.post('http://localhost:5000/api/register', formData);
+      alert(response.data.message);
+      navigate('/');
+    } catch (error) {
+      setError('Failed to register user');
+    }
   };
 
   const containerStyle = {
-    minHeight: 'calc(100vh - 80px)', // Adjust based on your navbar height
+    minHeight: 'calc(100vh - 80px)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: '0 0 0 550px'
+    backgroundColor: '#f8f9fa',
   };
 
   const formStyle = {
@@ -41,55 +53,90 @@ const RegisterPage = () => {
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
     borderRadius: '5px',
     backgroundColor: '#fff',
-    margin: '20px 0 20px 0'
-  };
-
-  const inputStyle = {
-    margin: '20px 0 20px 0'
   };
 
   return (
     <div style={containerStyle}>
       <Container>
         <div style={formStyle}>
-          <h2>Sign Up</h2><br></br>
-          <h4>Sign up as:</h4>
+          <h2 className="text-center">Register</h2>
+          {error && <p className="text-danger text-center">{error}</p>}
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formRole">
+            <Form.Group controlId="formName">
+              <Form.Control
+                type="text"
+                placeholder="Name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                style={{ margin: '10px 0' }}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formEmail">
+              <Form.Control
+                type="email"
+                placeholder="Email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                style={{ margin: '10px 0' }}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formPassword">
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                style={{ margin: '10px 0' }}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formConfirmPassword">
+              <Form.Control
+                type="password"
+                placeholder="Confirm Password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                style={{ margin: '10px 0' }}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formPhoneNumber">
+              <Form.Control
+                type="text"
+                placeholder="Phone Number"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                style={{ margin: '10px 0' }}
+                required
+              />
+            </Form.Group>
+            <Form.Group>
               <Form.Check
                 type="radio"
                 label="Customer"
                 name="role"
                 value="customer"
-                checked={role === 'customer'}
-                onChange={(e) => setRole(e.target.value)}
+                checked={formData.role === 'customer'}
+                onChange={handleChange}
               />
               <Form.Check
                 type="radio"
-                label="Seller"
+                label="Admin"
                 name="role"
-                value="seller"
-                checked={role === 'seller'}
-                onChange={(e) => setRole(e.target.value)}
+                value="admin"
+                checked={formData.role === 'admin'}
+                onChange={handleChange}
               />
             </Form.Group>
-            <Form.Group controlId="formName">
-              <Form.Control type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} style={inputStyle} />
-            </Form.Group>
-            <Form.Group controlId="formPassword">
-              <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} style={inputStyle} />
-            </Form.Group>
-            <Form.Group controlId="formConfirmPassword">
-              <Form.Control type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} style={inputStyle} />
-            </Form.Group>
-            <Form.Group controlId="formPhoneNumber">
-              <Form.Control type="tel" placeholder="Phone Number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} style={inputStyle} />
-            </Form.Group>
-            <Form.Group controlId="formEmail">
-              <Form.Control type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} style={inputStyle} />
-            </Form.Group>
             <Button variant="primary" type="submit" style={{ width: '100%' }}>
-              Sign Up
+              Register
             </Button>
           </Form>
         </div>

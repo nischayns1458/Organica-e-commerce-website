@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
+import axios from 'axios';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Check if email and password match
-    if (email === 'sai@example.com' && password === 'sai') {
-      // Redirect to LMS page upon successful login
+    try {
+      const response = await axios.post('http://localhost:5000/api/login', { email, password });
       alert('Log in Successful!');
       navigate('/');
-    } else {
-      // Handle invalid login
-      alert('Invalid email or password');
+    } catch (error) {
+      setError('Invalid email or password');
     }
   };
 
@@ -25,7 +25,8 @@ const LoginPage = () => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    margin:'20px 0 20px 550px', // Add margin to the bottom
+    backgroundColor: '#f8f9fa',
+    marginTop: '20px',
   };
 
   const formStyle = {
@@ -41,13 +42,28 @@ const LoginPage = () => {
     <div style={containerStyle}>
       <Container>
         <div style={formStyle}>
-          <h2>Login</h2>
+          <h2 className="text-center">Login</h2>
+          {error && <p className="text-danger text-center">{error}</p>}
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formEmail">
-              <Form.Control type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} style={{ margin: '20px 0 20px 0' }} />
+              <Form.Control
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                style={{ margin: '20px 0' }}
+                required
+              />
             </Form.Group>
             <Form.Group controlId="formPassword">
-              <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} style={{ marginBottom: '20px' }} />
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{ marginBottom: '20px' }}
+                required
+              />
             </Form.Group>
             <Button variant="primary" type="submit" style={{ width: '100%' }}>
               Login
